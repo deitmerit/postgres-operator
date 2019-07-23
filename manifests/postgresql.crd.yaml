@@ -135,7 +135,7 @@ spec:
                   type: integer
                 maximum_lag_on_failover:
                   type: integer
-            pod_priority_class_name:
+            podPriorityClassName:
               type: string
             postgresql:
               type: object
@@ -150,6 +150,7 @@ spec:
                     - "9.6"
                     - "10"
                     - "11"
+                    - "12"
                 parameters:
                   type: object
                   additionalProperties:
@@ -245,8 +246,7 @@ spec:
                   - effect
                 properties:
                   key:
-                    enum:
-                      - postgres
+                    type: string
                   operator:
                     enum:
                       - Equals

@@ -142,7 +142,7 @@ spec:
                   type: integer
                 maximum_lag_on_failover:
                   type: integer
-            pod_priority_class_name:
+            podPriorityClassName:
               type: string
             postgresql:
               type: object
@@ -157,6 +157,7 @@ spec:
                     - "9.6"
                     - "10"
                     - "11"
+                    - "12"
                 parameters:
                   type: object
                   additionalProperties:
@@ -252,8 +253,7 @@ spec:
                   - effect
                 properties:
                   key:
-                    enum:
-                      - postgres
+                    type: string
                   operator:
                     enum:
                       - Equals
@@ -373,6 +373,8 @@ spec:
               type: string
             repair_period:
               type: string
+            set_memory_request_to_limit:
+              type: boolean
             sidecar_docker_images:
               type: object
               additionalProperties:
@@ -413,7 +415,9 @@ spec:
                   items:
                     type: string
                 node_readiness_label:
-                  type: string
+                  type: array
+                  items:
+                    type: string
                   nullable: true
                 oauth_token_secret_name:
                   type: string
@@ -438,30 +442,9 @@ spec:
                 spilo_privileged:
                   type: boolean
                 toleration:
-                  type: array
-                  items:
-                    type: object
-                    required:
-                      - key
-                      - operator
-                      - effect
-                    properties:
-                      key:
-                        enum:
-                          - postgres
-                      operator:
-                        enum:
-                          - Equals
-                          - Exists
-                      value:
-                        type: string
-                      effect:
-                        enum:
-                          - NoExecute
-                          - NoSchedule
-                          - PreferNoSchedule
-                      tolerationSeconds:
-                        type: integer
+                  type: object
+                  additionalProperties:
+                    type: string
                 watched_namespace:
                   type: string
                   nullable: true
@@ -480,8 +463,6 @@ spec:
                 default_memory_request:
                   type: string
                   pattern: '^(\d+(e\d+)?|\d+(\.\d+)?(e\d+)?[EPTGMK]i?)$'
-                set_memory_request_to_limit:
-                  type: boolean
             timeouts:
               type: object
               properties:
